@@ -19,8 +19,21 @@ def main():
             if e.type == pygame.QUIT:
                 return
 
+        # check for user input
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_LEFT]:
+            player.moveX(player.velocity * -1)
+        if keys[pygame.K_RIGHT]:
+            player.moveX(player.velocity)
+
+        # clearing screen
+        window.fill((0, 0, 0))
+
+        # drawing entities
         pygame.draw.rect(window, player.color, player.get_info())
 
+        # updates
         pygame.display.update()
         clock.tick(fps)
 
