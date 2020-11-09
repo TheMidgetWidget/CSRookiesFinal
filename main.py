@@ -1,5 +1,6 @@
 import pygame
 from player import Player
+from ball import Ball
 
 
 def main():
@@ -9,12 +10,14 @@ def main():
     pygame.display.set_caption("CSRookies Breakout")
     clock = pygame.time.Clock()
     fps = 60
-    game_over = False
 
     # player
     player = Player(width, height)
+    # ball
+    ball = Ball(width, height)
+    game_over = False
 
-    while not game_over:
+    while True:
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 return
@@ -27,11 +30,24 @@ def main():
         if keys[pygame.K_RIGHT]:
             player.moveX(player.velocity)
 
+        if not game_over:
+            game_over = ball.move(player)
+
         # clearing screen
         window.fill((0, 0, 0))
 
-        # drawing entities
-        pygame.draw.rect(window, player.color, player.get_info())
+        if game_over:
+            font = pygame.font.SysFont("Comic Sans MS", 30)
+            # apply it to text on a label
+            label = font.render("Game Over!", True, (255, 255, 255))
+            # put the label object on the screen at point x=100, y=100
+            window.blit(label, ((width - 150) // 2, (height - 150) // 2))
+        else:
+            # drawing entities
+            # pygame.draw.rect(window, player.color, player.get_info())
+            # pygame.draw.circle(window, player.color, player.get_info())
+            player.draw(window)
+            ball.draw(window)
 
         # updates
         pygame.display.update()

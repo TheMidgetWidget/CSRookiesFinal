@@ -1,3 +1,6 @@
+import pygame
+
+
 class Entity:
     def __init__(self, screen_width, screen_height, width, height):
         self.screen_width, self.screen_height = screen_width, screen_height
@@ -7,6 +10,7 @@ class Entity:
         self.posX = 0
         self.posY = 0
         self.velocity = 5
+        self.rect = None
 
     def get_info(self):
         return self.posX, self.posY, self.width, self.height
@@ -18,3 +22,6 @@ class Entity:
     def moveY(self, delta):
         if not self.posY + self.height + delta > self.screen_height and not self.posY + delta < 0:
             self.posY += delta
+
+    def draw(self, window):
+        self.rect = pygame.draw.rect(window, self.color, self.get_info())
