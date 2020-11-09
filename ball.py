@@ -12,16 +12,24 @@ class Ball(Entity):
         coeff = 1 if random.random() < 0.5 else -1
         self.velX = random.randint(250, 301) / 100 * coeff
         self.velY = -3
+        self.can_collide = True
 
     def check_collision(self, blocks):
         for block in blocks:
             if block.rect is not None and self.rect is not None and self.rect.colliderect(block.rect):
                 self.velY *= -1
                 blocks.remove(block)
+                self.can_collide = True
 
     def check_player_collision(self, player):
-        if player.rect is not None and self.rect is not None and self.rect.colliderect(player.rect):
+        if player.rect is not None and self.rect is not None and self.rect.colliderect(
+                player.rect) and self.can_collide:
             self.velY *= -1
+            if self.rect.collidepoint(player.rect.topleft) or self.rect.collidepoint(
+                    player.rect.topright) or self.rect.collidepoint(player.rect.midleft) or self.rect.collidepoint(
+                player.rect.midright):
+                self.velX *= -1
+            self.can_collide = False
 
     def move(self, player):
         self.check_player_collision(player)
@@ -33,6 +41,8 @@ class Ball(Entity):
         pos += vel
         if pos < ball_dim:
             pos, vel = ball_dim, -vel
+            if check:
+                self.can_collide = True
         if pos > scrn_dim - ball_dim:
             if check:
                 pos, vel = -1, -1
