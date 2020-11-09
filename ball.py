@@ -12,6 +12,12 @@ class Ball(Entity):
         self.velX = 3
         self.velY = -3
 
+    def check_collision(self, blocks):
+        for block in blocks:
+            if block.rect is not None and self.rect is not None and self.rect.colliderect(block.rect):
+                self.velY *= -1
+                blocks.pop(block)
+
     def check_player_collision(self, player):
         if player.rect is not None and self.rect is not None and self.rect.colliderect(player.rect):
             self.velY *= -1

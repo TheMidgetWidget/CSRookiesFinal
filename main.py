@@ -1,6 +1,7 @@
 import pygame
 from player import Player
 from ball import Ball
+from block import Block
 
 
 def main():
@@ -13,9 +14,22 @@ def main():
 
     # player
     player = Player(width, height)
+
     # ball
     ball = Ball(width, height)
     game_over = False
+
+    # blocks
+    blocks = []
+    b_width, b_height = width // 5 - 20, height // (4*5) - 10
+    x, y = 30, 10
+
+    for i in range(5):
+        for j in range(5):
+            blocks.append(Block(height, width, b_width, b_height, x, y))
+            x += 10 + b_width
+        y += 10 + b_height
+        x = 30
 
     while True:
         for e in pygame.event.get():
@@ -44,10 +58,10 @@ def main():
             window.blit(label, ((width - 150) // 2, (height - 150) // 2))
         else:
             # drawing entities
-            # pygame.draw.rect(window, player.color, player.get_info())
-            # pygame.draw.circle(window, player.color, player.get_info())
             player.draw(window)
             ball.draw(window)
+            for block in blocks:
+                block.draw(window)
 
         # updates
         pygame.display.update()
