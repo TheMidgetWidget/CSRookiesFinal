@@ -6,7 +6,7 @@ class Entity:
         self.screen_width, self.screen_height = screen_width, screen_height
         self.width = width
         self.height = height
-        self.color = (0, 0, 255)
+        self.color = (0, 255, 255)
         self.posX = 0
         self.posY = 0
         self.velocity = 5

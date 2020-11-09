@@ -7,3 +7,4 @@ class Player(Entity):
         super().__init__(screen_width, screen_height, width, height)
         self.posX = (screen_width - width) // 2
         self.posY = int(screen_height * 0.8)
+        self.velocity = 6

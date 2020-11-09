@@ -9,14 +9,15 @@ class Ball(Entity):
         self.color = (255, 255, 255)
         self.posX = (screen_width - self.width) // 2
         self.posY = int(screen_height * 0.8) - self.height * 8
-        self.velX = 3
+        coeff = 1 if random.random() < 0.5 else -1
+        self.velX = random.randint(250, 301) / 100 * coeff
         self.velY = -3
 
     def check_collision(self, blocks):
         for block in blocks:
             if block.rect is not None and self.rect is not None and self.rect.colliderect(block.rect):
                 self.velY *= -1
-                blocks.pop(block)
+                blocks.remove(block)
 
     def check_player_collision(self, player):
         if player.rect is not None and self.rect is not None and self.rect.colliderect(player.rect):

@@ -2,6 +2,7 @@ import pygame
 from player import Player
 from ball import Ball
 from block import Block
+import random
 
 
 def main():
@@ -21,15 +22,17 @@ def main():
 
     # blocks
     blocks = []
-    b_width, b_height = width // 5 - 20, height // (4*5) - 10
+    b_width, b_height = width // 5 - 20, height // (4 * 5) - 10
     x, y = 30, 10
-
     for i in range(5):
         for j in range(5):
-            blocks.append(Block(height, width, b_width, b_height, x, y))
+            blocks.append(Block(height, width, b_width, b_height, x, y, (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))))
             x += 10 + b_width
         y += 10 + b_height
         x = 30
+
+    # score
+    max_score = len(blocks)
 
     while True:
         for e in pygame.event.get():
@@ -46,6 +49,9 @@ def main():
 
         if not game_over:
             game_over = ball.move(player)
+            ball.check_collision(blocks)
+            if not game_over:
+                game_over = len(blocks) == 0
 
         # clearing screen
         window.fill((0, 0, 0))
@@ -53,9 +59,11 @@ def main():
         if game_over:
             font = pygame.font.SysFont("Comic Sans MS", 30)
             # apply it to text on a label
-            label = font.render("Game Over!", True, (255, 255, 255))
+            go_label = font.render("Game Over!", True, (255, 255, 255))
+            score_label = font.render("Score: " + str(max_score - len(blocks)), True, (255, 255, 0))
             # put the label object on the screen at point x=100, y=100
-            window.blit(label, ((width - 150) // 2, (height - 150) // 2))
+            window.blit(go_label, ((width - 150) // 2, (height - 150) // 2))
+            window.blit(score_label, ((width - 120) // 2, (height - 60) // 2))
         else:
             # drawing entities
             player.draw(window)
