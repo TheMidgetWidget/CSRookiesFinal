@@ -1,7 +1,7 @@
 import pygame
-from player import Player
-from ball import Ball
-from block import Block
+from entities.player import Player
+from entities.ball import Ball
+from entities.block import Block
 import random
 
 pygame.init()
