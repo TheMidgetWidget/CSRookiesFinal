@@ -13,6 +13,8 @@ class Ball(Entity):
         self.velX = random.randint(250, 301) / 100 * coeff
         self.velY = -3
         self.can_collide = True
+        self.ball_hit = pygame.mixer.Sound('sounds/ball_hit.wav')
+        self.ball_hit.set_volume(0.2)
 
     def check_collision(self, blocks):
         for block in blocks:
@@ -20,10 +22,12 @@ class Ball(Entity):
                 self.velY *= -1
                 blocks.remove(block)
                 self.can_collide = True
+                self.ball_hit.play()
 
     def check_player_collision(self, player):
         if player.rect is not None and self.rect is not None and self.rect.colliderect(
                 player.rect) and self.can_collide:
+            self.ball_hit.play()
             self.velY *= -1
             if self.rect.collidepoint(player.rect.topleft) or self.rect.collidepoint(
                     player.rect.topright) or self.rect.collidepoint(player.rect.midleft) or self.rect.collidepoint(
@@ -40,6 +44,7 @@ class Ball(Entity):
     def _move(self, pos, vel, ball_dim, scrn_dim, check):
         pos += vel
         if pos < ball_dim:
+            self.ball_hit.play()
             pos, vel = ball_dim, -vel
             if check:
                 self.can_collide = True
@@ -48,4 +53,5 @@ class Ball(Entity):
                 pos, vel = -1, -1
             else:
                 pos, vel = pos - ball_dim, -vel
+                self.ball_hit.play()
         return pos, vel

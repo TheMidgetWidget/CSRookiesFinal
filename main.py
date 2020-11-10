@@ -13,6 +13,11 @@ font = pygame.font.SysFont("Comic Sans MS", 30)
 large_font = pygame.font.SysFont("Comic Sans MS", 45)
 btn_width, btn_height = 250, 50
 
+# sounds
+pygame.mixer.music.load('sounds/background.mp3')
+pygame.mixer.music.set_volume(0.08)
+pygame.mixer.music.play(-1)
+
 
 def _render_btn(text, pos, mouse, run=None):
     is_hovering = 0
