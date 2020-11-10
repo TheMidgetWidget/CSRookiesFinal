@@ -1,0 +1,1 @@
+A very simple recreation of Atari's Breakout in Python using Pygame.
